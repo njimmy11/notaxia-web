@@ -1,4 +1,12 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+Notaxia landing page (notaxia.com) — Next.js 16.
+
+## Landing page & SEO
+
+- **Sections:** Hero, Widget→Dump→Clarity, Pain (3 cards), Shift (messy→AI→insight), Magic (Capture/Understand/Recall), Why Notaxia table, Privacy, Final CTA, FAQ.
+- **SEO:** `metadataBase`, title/description/keywords, Open Graph, Twitter cards, canonical URL, `robots.txt`, `sitemap.xml`, theme color, JSON-LD (Organization, WebSite, SoftwareApplication).
+- **To add before launch:**
+  1. **OG image:** Add `public/og.png` (1200×630) for social sharing; referenced in `app/layout.tsx`.
+  2. **App store links:** Replace placeholder iOS/Android URLs in `app/page.tsx` and optional `apple-itunes-app` / `google-play-app` in `app/layout.tsx` with real App Store / Play Store IDs.
 
 ## Getting Started
 
