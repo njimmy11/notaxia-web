@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { PageLayout } from "@/components/PageLayout";
 
 export const metadata = {
@@ -71,13 +72,13 @@ export default function AboutPage() {
           <h2 className="text-2xl font-bold mb-4">The team</h2>
           <p className="text-lg text-[var(--muted)]">
             We're a small team. We ship often, listen to feedback, and try not to overcomplicate things. 
-            If you have a question or a bug, drop us a line at{" "}
-            <a
-              href="mailto:support@notaxia.com"
+            If you have a question or a bug,{" "}
+            <Link
+              href="/support"
               className="text-[var(--primary)] font-medium hover:underline"
             >
-              support@notaxia.com
-            </a>
+              visit our support page
+            </Link>
             .
           </p>
         </section>

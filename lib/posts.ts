@@ -168,7 +168,7 @@ export const posts: Post[] = [
       },
       {
         type: "p",
-        text: "More soon. If you hit something weird, tell us—support@notaxia.com.",
+        text: "More soon. If you hit something weird, tell us—hey@notaxia.com.",
       },
     ],
   },

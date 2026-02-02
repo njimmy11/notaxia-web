@@ -80,7 +80,8 @@ export function PageLayout({
             <Link href="/about" className="text-[var(--muted)] hover:text-[var(--foreground)] transition-colors">About</Link>
             <Link href="/changelog" className="text-[var(--muted)] hover:text-[var(--foreground)] transition-colors">Changelog</Link>
             <Link href="/support" className="text-[var(--muted)] hover:text-[var(--foreground)] transition-colors">Support</Link>
-            <a href="mailto:support@notaxia.com" className="text-[var(--muted)] hover:text-[var(--foreground)] transition-colors">Contact</a>
+            <Link href="/privacy" className="text-[var(--muted)] hover:text-[var(--foreground)] transition-colors">Privacy</Link>
+            <Link href="/terms" className="text-[var(--muted)] hover:text-[var(--foreground)] transition-colors">Terms</Link>
           </div>
         </div>
       </footer>

@@ -15,22 +15,22 @@ const topics = [
   {
     title: "Billing & subscription",
     desc: "Questions about your plan, renewal, refunds, or payment issues.",
-    email: "support@notaxia.com",
+    email: "hey@notaxia.com",
   },
   {
     title: "Bugs & technical issues",
     desc: "Something not working? Crashes, sync problems, or weird behavior.",
-    email: "support@notaxia.com",
+    email: "hey@notaxia.com",
   },
   {
     title: "Feature requests",
     desc: "Ideas for what we should build next. We read everything.",
-    email: "support@notaxia.com",
+    email: "hey@notaxia.com",
   },
   {
     title: "Privacy & data",
     desc: "How we handle your data, export, or account deletion.",
-    email: "support@notaxia.com",
+    email: "hey@notaxia.com",
   },
 ];
 
@@ -50,10 +50,10 @@ export default function SupportPage() {
             <p className="text-lg leading-relaxed text-[var(--muted)] mt-6">
               Write to{" "}
               <a
-                href="mailto:support@notaxia.com"
+                href="mailto:hey@notaxia.com"
                 className="text-[var(--primary)] font-medium hover:underline"
               >
-                support@notaxia.com
+                hey@notaxia.com
               </a>{" "}
               with your question, and include your account email or device type if it's about a specific issue.
             </p>
@@ -106,10 +106,10 @@ export default function SupportPage() {
           <h2 className="text-2xl font-bold mb-4">Still stuck?</h2>
           <p className="text-[var(--muted)] mb-6">We're a small team and we read every message. Just reach out.</p>
           <a
-            href="mailto:support@notaxia.com"
+            href="mailto:hey@notaxia.com"
             className="inline-flex h-12 items-center justify-center rounded-full bg-[var(--foreground)] px-8 font-semibold text-[var(--background)] hover:opacity-90 transition-opacity"
           >
-            support@notaxia.com
+            hey@notaxia.com
           </a>
         </section>
       </div>

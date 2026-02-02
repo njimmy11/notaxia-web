@@ -942,7 +942,7 @@ export function LandingPage() {
               <Link href="/blog" className="text-sm text-[var(--muted)] hover:text-[var(--foreground)] transition-colors">Blog</Link>
               <Link href="/about" className="text-sm text-[var(--muted)] hover:text-[var(--foreground)] transition-colors">About</Link>
               <Link href="/changelog" className="text-sm text-[var(--muted)] hover:text-[var(--foreground)] transition-colors">Changelog</Link>
-              <a href="mailto:support@notaxia.com" className="text-sm text-[var(--muted)] hover:text-[var(--foreground)] transition-colors">Contact</a>
+              <Link href="/support" className="text-sm text-[var(--muted)] hover:text-[var(--foreground)] transition-colors">Support</Link>
             </div>
 
             <div className="flex items-center gap-4">
@@ -958,8 +958,8 @@ export function LandingPage() {
           <div className="mt-12 pt-8 border-t border-[var(--border)] flex flex-col sm:flex-row justify-between items-center gap-4 text-sm text-[var(--muted)]">
             <p>© {new Date().getFullYear()} Notaxia. All rights reserved.</p>
             <div className="flex gap-6">
-              <a href="#" className="hover:text-[var(--foreground)] transition-colors">Privacy</a>
-              <a href="#" className="hover:text-[var(--foreground)] transition-colors">Terms</a>
+              <Link href="/privacy" className="hover:text-[var(--foreground)] transition-colors">Privacy</Link>
+              <Link href="/terms" className="hover:text-[var(--foreground)] transition-colors">Terms</Link>
             </div>
           </div>
         </div>
