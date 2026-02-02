@@ -1,0 +1,13 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.notaxia.app",
+      "sha256_cert_fingerprints": [
+        "F429C1901A6FB066DDB2DFE8AB4ACA966A690F37F8033205B59A7BFC68FD2CE7",
+        "FAC61745DC0903786FB9EDE62A962B399F7348F0BB6F899B8332667591033B9C"
+      ]
+    }
+  }
+]

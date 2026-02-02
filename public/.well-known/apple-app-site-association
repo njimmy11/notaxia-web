@@ -1,0 +1,11 @@
+{
+  "applinks": {
+    "apps": [],
+    "details": [
+      {
+        "appID": "6837U2B9QR.com.notaxia.app",
+        "paths": ["/verify-email", "/verify-email/*", "/password-reset", "/password-reset/*"]
+      }
+    ]
+  }
+}
