@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useParams, useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
 import Link from "next/link";
 import { adminFetch } from "@/lib/admin-api";
 
@@ -33,11 +33,19 @@ type UserDetail = {
 
 export default function AdminUserDetailPage() {
   const params = useParams();
-  const router = useRouter();
   const id = params?.id as string;
   const [user, setUser] = useState<UserDetail | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [actionLoading, setActionLoading] = useState("");
+  const [grantProExpiry, setGrantProExpiry] = useState("");
+  const [showGrantModal, setShowGrantModal] = useState(false);
+
+  function refetch() {
+    if (!id) return;
+    adminFetch<UserDetail>(`/admin/users/${id}`)
+      .then((res) => { if (res.ok && res.data) setUser(res.data); });
+  }
 
   useEffect(() => {
     if (!id) return;
@@ -48,6 +56,45 @@ export default function AdminUserDetailPage() {
       })
       .finally(() => setLoading(false));
   }, [id]);
+
+  async function handleGrantPro() {
+    if (!id) return;
+    setActionLoading("grant-pro");
+    try {
+      const res = await adminFetch(`/admin/users/${id}/grant-pro`, {
+        method: "POST",
+        body: JSON.stringify({ subscriptionExpiresAt: grantProExpiry || null }),
+      });
+      if (res.ok) {
+        setShowGrantModal(false);
+        setGrantProExpiry("");
+        refetch();
+      }
+    } finally {
+      setActionLoading("");
+    }
+  }
+
+  async function handleResetUsage() {
+    if (!id || !confirm("Reset usage counters for this user?")) return;
+    setActionLoading("reset-usage");
+    try {
+      const res = await adminFetch(`/admin/users/${id}/reset-usage`, { method: "POST" });
+      if (res.ok) refetch();
+    } finally {
+      setActionLoading("");
+    }
+  }
+
+  async function handleResendVerification() {
+    if (!id) return;
+    setActionLoading("resend");
+    try {
+      await adminFetch(`/admin/users/${id}/resend-verification`, { method: "POST" });
+    } finally {
+      setActionLoading("");
+    }
+  }
 
   if (loading) {
     return (
@@ -136,6 +183,64 @@ export default function AdminUserDetailPage() {
               <dd className="font-medium text-[var(--foreground)]">{user.documentsProcessedThisPeriod}</dd>
             </div>
           </dl>
+        </section>
+
+        <section className="rounded-xl border border-[var(--border)] bg-[var(--card)] p-4">
+          <h2 className="text-lg font-medium text-[var(--foreground)] mb-3">Actions</h2>
+          <div className="flex flex-wrap gap-2">
+            <button
+              type="button"
+              onClick={() => setShowGrantModal(true)}
+              disabled={!!actionLoading}
+              className="rounded-lg border border-[var(--border)] bg-[var(--card)] px-3 py-2 text-sm font-medium text-[var(--foreground)] hover:bg-[var(--card-hover)] disabled:opacity-50"
+            >
+              Grant Pro
+            </button>
+            <button
+              type="button"
+              onClick={handleResetUsage}
+              disabled={!!actionLoading}
+              className="rounded-lg border border-[var(--border)] bg-[var(--card)] px-3 py-2 text-sm font-medium text-[var(--foreground)] hover:bg-[var(--card-hover)] disabled:opacity-50"
+            >
+              Reset usage
+            </button>
+            {!user.emailVerified && (
+              <button
+                type="button"
+                onClick={handleResendVerification}
+                disabled={!!actionLoading}
+                className="rounded-lg border border-[var(--border)] bg-[var(--card)] px-3 py-2 text-sm font-medium text-[var(--foreground)] hover:bg-[var(--card-hover)] disabled:opacity-50"
+              >
+                Resend verification email
+              </button>
+            )}
+          </div>
+          {showGrantModal && (
+            <div className="mt-4 p-4 rounded-lg border border-[var(--border)] bg-[var(--background)]">
+              <p className="text-sm text-[var(--foreground)] mb-2">Grant Pro (optional expiry date):</p>
+              <input
+                type="date"
+                value={grantProExpiry}
+                onChange={(e) => setGrantProExpiry(e.target.value)}
+                className="rounded border border-[var(--border)] bg-[var(--card)] px-2 py-1 text-sm text-[var(--foreground)] mr-2"
+              />
+              <button
+                type="button"
+                onClick={handleGrantPro}
+                disabled={actionLoading === "grant-pro"}
+                className="rounded-lg bg-[var(--primary)] text-white px-3 py-1.5 text-sm font-medium hover:opacity-90 disabled:opacity-50"
+              >
+                Confirm
+              </button>
+              <button
+                type="button"
+                onClick={() => { setShowGrantModal(false); setGrantProExpiry(""); }}
+                className="ml-2 rounded-lg border border-[var(--border)] px-3 py-1.5 text-sm font-medium text-[var(--foreground)] hover:bg-[var(--card-hover)]"
+              >
+                Cancel
+              </button>
+            </div>
+          )}
         </section>
 
         <section className="rounded-xl border border-[var(--border)] bg-[var(--card)] p-4">

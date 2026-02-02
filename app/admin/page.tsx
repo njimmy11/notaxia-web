@@ -1,7 +1,17 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import { adminFetch } from "@/lib/admin-api";
+
+type RecentUser = { id: string; email: string; name: string; createdAt: string };
+type RecentDoc = {
+  id: string;
+  title: string | null;
+  errorMessage: string | null;
+  createdAt: string;
+  uploadedBy: { email: string; name: string };
+};
 
 type Stats = {
   userCount?: number;
@@ -13,6 +23,8 @@ type Stats = {
   totalReminders?: number;
   subscriptionCounts?: Record<string, number>;
   failedDocumentsCount?: number;
+  recentSignups?: RecentUser[];
+  recentFailedDocuments?: RecentDoc[];
   timestamp?: string;
 };
 
@@ -93,6 +105,47 @@ export default function AdminDashboardPage() {
             <dd className="font-medium text-[var(--foreground)]">{pro.toLocaleString()}</dd>
           </div>
         </dl>
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
+        <div className="rounded-xl border border-[var(--border)] bg-[var(--card)] p-4">
+          <h2 className="text-lg font-medium text-[var(--foreground)] mb-3">Recent signups</h2>
+          {(stats?.recentSignups?.length ?? 0) === 0 ? (
+            <p className="text-sm text-[var(--muted-foreground)]">No recent users</p>
+          ) : (
+            <ul className="space-y-2 text-sm">
+              {(stats?.recentSignups ?? []).map((u) => (
+                <li key={u.id}>
+                  <Link href={`/admin/users/${u.id}`} className="text-[var(--primary)] hover:underline">
+                    {u.email}
+                  </Link>
+                  <span className="text-[var(--muted-foreground)] ml-2">
+                    {new Date(u.createdAt).toLocaleDateString()}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+        <div className="rounded-xl border border-[var(--border)] bg-[var(--card)] p-4">
+          <h2 className="text-lg font-medium text-[var(--foreground)] mb-3">Recent failed documents</h2>
+          {(stats?.recentFailedDocuments?.length ?? 0) === 0 ? (
+            <p className="text-sm text-[var(--muted-foreground)]">None</p>
+          ) : (
+            <ul className="space-y-2 text-sm">
+              {(stats?.recentFailedDocuments ?? []).map((d) => (
+                <li key={d.id}>
+                  <Link href="/admin/documents" className="text-[var(--primary)] hover:underline">
+                    {d.title || d.id}
+                  </Link>
+                  <span className="text-[var(--muted-foreground)] ml-2">
+                    {d.uploadedBy?.email ?? "—"} · {d.errorMessage ? `${d.errorMessage.slice(0, 40)}…` : ""}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
       </div>
 
       {stats?.timestamp && (

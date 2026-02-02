@@ -1,22 +1,32 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { adminFetch } from "@/lib/admin-api";
+import { adminFetch, getApiUrl } from "@/lib/admin-api";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "https://api.notaxia.com";
+type Health = { status?: string; timestamp?: string; version?: string };
+type Config = { nodeEnv?: string; adminOtpExpiryMinutes?: number; adminOtpRateLimitPerEmail?: number };
+type DbHealth = { db: "ok" | "error" };
 
 export default function AdminSystemPage() {
-  const [health, setHealth] = useState<{ status?: string; timestamp?: string; version?: string } | null>(null);
+  const [health, setHealth] = useState<Health | null>(null);
+  const [config, setConfig] = useState<Config | null>(null);
+  const [dbHealth, setDbHealth] = useState<DbHealth | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
   useEffect(() => {
-    const base = API_URL.replace(/\/$/, "");
-    fetch(`${base}/api/health`)
-      .then((res) => res.json())
-      .then((json) => {
-        setHealth(json?.data ?? json);
-        if (!json?.data?.status && !json?.status) setError("Invalid health response");
+    const base = getApiUrl().replace(/\/$/, "");
+
+    Promise.all([
+      fetch(`${base}/api/health`).then((res) => res.json()).then((json) => json?.data ?? json),
+      adminFetch<Config>("/admin/config").then((r) => r.ok ? r.data : null),
+      adminFetch<DbHealth>("/admin/health/db").then((r) => (r.ok ? r.data : r.status === 503 ? { db: "error" as const } : null)),
+    ])
+      .then(([h, c, d]) => {
+        setHealth(h);
+        setConfig(c ?? null);
+        setDbHealth(d ?? null);
+        if (!h?.status && !h?.version) setError("Invalid health response");
       })
       .catch(() => setError("Could not reach API"))
       .finally(() => setLoading(false));
@@ -58,18 +68,31 @@ export default function AdminSystemPage() {
         ) : null}
       </section>
 
+      <section className="rounded-xl border border-[var(--border)] bg-[var(--card)] p-4 max-w-xl mb-6">
+        <h2 className="text-lg font-medium text-[var(--foreground)] mb-3">Database</h2>
+        {dbHealth ? (
+          <p className={`font-medium ${dbHealth.db === "ok" ? "text-green-600" : "text-red-500"}`}>
+            {dbHealth.db === "ok" ? "Connected" : "Connection failed"}
+          </p>
+        ) : (
+          <p className="text-[var(--muted-foreground)]">—</p>
+        )}
+      </section>
+
       <section className="rounded-xl border border-[var(--border)] bg-[var(--card)] p-4 max-w-xl">
         <h2 className="text-lg font-medium text-[var(--foreground)] mb-3">Config (non-secret)</h2>
         <dl className="grid grid-cols-2 gap-2 text-sm">
           <div>
-            <dt className="text-[var(--muted-foreground)]">API URL</dt>
-            <dd className="text-[var(--foreground)] font-mono text-xs truncate max-w-[200px]" title={API_URL}>
-              {API_URL}
-            </dd>
+            <dt className="text-[var(--muted-foreground)]">Node env</dt>
+            <dd className="font-medium text-[var(--foreground)]">{config?.nodeEnv ?? "—"}</dd>
           </div>
           <div>
-            <dt className="text-[var(--muted-foreground)]">Node env</dt>
-            <dd className="text-[var(--foreground)]">(server-only)</dd>
+            <dt className="text-[var(--muted-foreground)]">Admin OTP expiry (min)</dt>
+            <dd className="text-[var(--foreground)]">{config?.adminOtpExpiryMinutes ?? "—"}</dd>
+          </div>
+          <div>
+            <dt className="text-[var(--muted-foreground)]">Admin OTP rate limit</dt>
+            <dd className="text-[var(--foreground)]">{config?.adminOtpRateLimitPerEmail ?? "—"} per window</dd>
           </div>
         </dl>
         <p className="mt-2 text-xs text-[var(--muted-foreground)]">

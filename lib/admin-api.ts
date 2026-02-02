@@ -2,7 +2,7 @@ const ADMIN_TOKEN_KEY = "notaxia_admin_token";
 
 const DEFAULT_API_URL = "https://api.notaxia.com";
 
-function getApiUrl(): string {
+export function getApiUrl(): string {
   if (typeof window !== "undefined") {
     return process.env.NEXT_PUBLIC_API_URL || DEFAULT_API_URL;
   }

@@ -9,6 +9,9 @@ const navItems = [
   { href: "/admin/users", label: "Users" },
   { href: "/admin/documents", label: "Documents" },
   { href: "/admin/subscriptions", label: "Subscriptions" },
+  { href: "/admin/thoughts", label: "Thoughts" },
+  { href: "/admin/voice-notes", label: "Voice notes" },
+  { href: "/admin/admins", label: "Admins" },
   { href: "/admin/system", label: "System" },
 ];
 
