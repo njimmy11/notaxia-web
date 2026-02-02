@@ -22,6 +22,7 @@ type SubscriptionRow = {
 
 type SubscriptionsRes = {
   subscriptionCounts?: Record<string, number>;
+  freeTierLimits?: { thoughtsPerMonth: number; voiceMinutesPerMonth: number; documentsPerMonth: number };
   users: SubscriptionRow[];
   totalCount: number;
   page: number;
@@ -69,9 +70,30 @@ export default function AdminSubscriptionsPage() {
   const totalCount = data?.totalCount ?? 0;
   const totalPages = Math.ceil(totalCount / limit) || 1;
 
+  const limits = data?.freeTierLimits;
+
   return (
     <div className="p-8">
       <h1 className="text-2xl font-semibold text-[var(--foreground)] mb-6">Subscriptions</h1>
+      {limits && (
+        <div className="rounded-xl border border-[var(--border)] bg-[var(--card)] p-4 max-w-2xl mb-6">
+          <h2 className="text-sm font-medium text-[var(--muted-foreground)] mb-2">Free tier limits (read-only)</h2>
+          <dl className="grid grid-cols-1 sm:grid-cols-3 gap-2 text-sm">
+            <div>
+              <dt className="text-[var(--muted-foreground)]">Thoughts per month</dt>
+              <dd className="font-medium text-[var(--foreground)]">{limits.thoughtsPerMonth}</dd>
+            </div>
+            <div>
+              <dt className="text-[var(--muted-foreground)]">Voice minutes per month</dt>
+              <dd className="font-medium text-[var(--foreground)]">{limits.voiceMinutesPerMonth}</dd>
+            </div>
+            <div>
+              <dt className="text-[var(--muted-foreground)]">Documents per month</dt>
+              <dd className="font-medium text-[var(--foreground)]">{limits.documentsPerMonth}</dd>
+            </div>
+          </dl>
+        </div>
+      )}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-2xl mb-8">
         <div className="rounded-xl border border-[var(--border)] bg-[var(--card)] p-4">
           <p className="text-sm text-[var(--muted-foreground)]">FREE</p>

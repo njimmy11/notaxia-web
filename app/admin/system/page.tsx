@@ -4,7 +4,12 @@ import { useEffect, useState } from "react";
 import { adminFetch, getApiUrl } from "@/lib/admin-api";
 
 type Health = { status?: string; timestamp?: string; version?: string };
-type Config = { nodeEnv?: string; adminOtpExpiryMinutes?: number; adminOtpRateLimitPerEmail?: number };
+type Config = {
+  nodeEnv?: string;
+  adminOtpExpiryMinutes?: number;
+  adminOtpRateLimitPerEmail?: number;
+  freeTierLimits?: { thoughtsPerMonth: number; voiceMinutesPerMonth: number; documentsPerMonth: number };
+};
 type DbHealth = { db: "ok" | "error" };
 
 export default function AdminSystemPage() {
@@ -95,6 +100,25 @@ export default function AdminSystemPage() {
             <dd className="text-[var(--foreground)]">{config?.adminOtpRateLimitPerEmail ?? "—"} per window</dd>
           </div>
         </dl>
+        {config?.freeTierLimits && (
+          <>
+            <h3 className="text-sm font-medium text-[var(--foreground)] mt-4 mb-2">Free tier limits (read-only)</h3>
+            <dl className="grid grid-cols-2 gap-2 text-sm">
+              <div>
+                <dt className="text-[var(--muted-foreground)]">Thoughts per month</dt>
+                <dd className="font-medium text-[var(--foreground)]">{config.freeTierLimits.thoughtsPerMonth}</dd>
+              </div>
+              <div>
+                <dt className="text-[var(--muted-foreground)]">Voice minutes per month</dt>
+                <dd className="font-medium text-[var(--foreground)]">{config.freeTierLimits.voiceMinutesPerMonth}</dd>
+              </div>
+              <div>
+                <dt className="text-[var(--muted-foreground)]">Documents per month</dt>
+                <dd className="font-medium text-[var(--foreground)]">{config.freeTierLimits.documentsPerMonth}</dd>
+              </div>
+            </dl>
+          </>
+        )}
         <p className="mt-2 text-xs text-[var(--muted-foreground)]">
           Sensitive env (JWT_SECRET, DB, etc.) are never exposed to the client.
         </p>
