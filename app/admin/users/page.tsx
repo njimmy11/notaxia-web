@@ -11,6 +11,7 @@ type UserRow = {
   createdAt: string;
   plan: string;
   emailVerified: boolean;
+  banned?: boolean;
   _count: {
     thoughts: number;
     notes: number;
@@ -126,6 +127,7 @@ export default function AdminUsersPage() {
                 <th className="text-left p-3 font-medium text-[var(--foreground)]">Name</th>
                 <th className="text-left p-3 font-medium text-[var(--foreground)]">Plan</th>
                 <th className="text-left p-3 font-medium text-[var(--foreground)]">Verified</th>
+                <th className="text-left p-3 font-medium text-[var(--foreground)]">Banned</th>
                 <th className="text-right p-3 font-medium text-[var(--foreground)]">Thoughts</th>
                 <th className="text-right p-3 font-medium text-[var(--foreground)]">Notes</th>
                 <th className="text-right p-3 font-medium text-[var(--foreground)]">Docs</th>
@@ -142,6 +144,13 @@ export default function AdminUsersPage() {
                   <td className="p-3 text-[var(--foreground)]">{u.name}</td>
                   <td className="p-3 text-[var(--muted-foreground)]">{u.plan}</td>
                   <td className="p-3 text-[var(--muted-foreground)]">{u.emailVerified ? "Yes" : "No"}</td>
+                  <td className="p-3">
+                    {u.banned ? (
+                      <span className="rounded bg-red-500/20 px-1.5 py-0.5 text-xs font-medium text-red-600">Banned</span>
+                    ) : (
+                      <span className="text-[var(--muted-foreground)]">—</span>
+                    )}
+                  </td>
                   <td className="p-3 text-right text-[var(--muted-foreground)]">{u._count?.thoughts ?? 0}</td>
                   <td className="p-3 text-right text-[var(--muted-foreground)]">{u._count?.notes ?? 0}</td>
                   <td className="p-3 text-right text-[var(--muted-foreground)]">{u._count?.documents ?? 0}</td>

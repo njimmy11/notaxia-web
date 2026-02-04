@@ -20,6 +20,9 @@ type UserDetail = {
   voiceMinutesThisPeriod: number;
   documentsProcessedThisPeriod: number;
   pushTokens: string[];
+  banned?: boolean;
+  bannedAt?: string | null;
+  bannedReason?: string | null;
   _count: {
     thoughts: number;
     notes: number;
@@ -50,6 +53,8 @@ export default function AdminUserDetailPage() {
   const [actionLoading, setActionLoading] = useState("");
   const [grantProExpiry, setGrantProExpiry] = useState("");
   const [showGrantModal, setShowGrantModal] = useState(false);
+  const [showBanModal, setShowBanModal] = useState(false);
+  const [banReason, setBanReason] = useState("");
   const [recentThoughts, setRecentThoughts] = useState<ThoughtRow[]>([]);
   const [thoughtsLoading, setThoughtsLoading] = useState(false);
   const [processThoughtId, setProcessThoughtId] = useState<string | null>(null);
@@ -119,6 +124,52 @@ export default function AdminUserDetailPage() {
     }
   }
 
+  async function handleBan() {
+    if (!id) return;
+    setActionLoading("ban");
+    try {
+      const res = await adminFetch(`/admin/users/${id}/ban`, {
+        method: "POST",
+        body: JSON.stringify({ reason: banReason || undefined }),
+      });
+      if (res.ok) {
+        setShowBanModal(false);
+        setBanReason("");
+        refetch();
+      } else {
+        alert(res.error || "Failed to ban");
+      }
+    } finally {
+      setActionLoading("");
+    }
+  }
+
+  async function handleUnban() {
+    if (!id || !confirm("Unban this user?")) return;
+    setActionLoading("unban");
+    try {
+      const res = await adminFetch(`/admin/users/${id}/unban`, { method: "POST" });
+      if (res.ok) refetch();
+    } finally {
+      setActionLoading("");
+    }
+  }
+
+  async function handleDeleteUser() {
+    if (!id || !confirm("Permanently delete this user and all their data? This cannot be undone.")) return;
+    setActionLoading("delete");
+    try {
+      const res = await adminFetch(`/admin/users/${id}`, { method: "DELETE" });
+      if (res.ok) {
+        window.location.href = "/admin/users";
+      } else {
+        alert(res.error || "Failed to delete");
+      }
+    } finally {
+      setActionLoading("");
+    }
+  }
+
   async function handleManualProcessThought(thoughtId: string) {
     setProcessThoughtId(thoughtId);
     try {
@@ -179,6 +230,26 @@ export default function AdminUserDetailPage() {
               <dt className="text-[var(--muted-foreground)]">Push tokens</dt>
               <dd className="text-[var(--foreground)]">{user.pushTokens?.length ?? 0}</dd>
             </div>
+            {user.banned && (
+              <>
+                <div>
+                  <dt className="text-[var(--muted-foreground)]">Banned</dt>
+                  <dd className="font-medium text-red-500">Yes</dd>
+                </div>
+                {user.bannedAt && (
+                  <div>
+                    <dt className="text-[var(--muted-foreground)]">Banned at</dt>
+                    <dd className="text-[var(--foreground)]">{new Date(user.bannedAt).toLocaleString()}</dd>
+                  </div>
+                )}
+                {user.bannedReason && (
+                  <div>
+                    <dt className="text-[var(--muted-foreground)]">Reason</dt>
+                    <dd className="text-[var(--foreground)]">{user.bannedReason}</dd>
+                  </div>
+                )}
+              </>
+            )}
           </dl>
         </section>
 
@@ -251,6 +322,33 @@ export default function AdminUserDetailPage() {
                 Resend verification email
               </button>
             )}
+            {user.banned ? (
+              <button
+                type="button"
+                onClick={handleUnban}
+                disabled={!!actionLoading}
+                className="rounded-lg border border-amber-600 bg-amber-500/10 px-3 py-2 text-sm font-medium text-amber-600 hover:bg-amber-500/20 disabled:opacity-50"
+              >
+                Unban user
+              </button>
+            ) : (
+              <button
+                type="button"
+                onClick={() => setShowBanModal(true)}
+                disabled={!!actionLoading}
+                className="rounded-lg border border-red-600 bg-red-500/10 px-3 py-2 text-sm font-medium text-red-600 hover:bg-red-500/20 disabled:opacity-50"
+              >
+                Ban user
+              </button>
+            )}
+            <button
+              type="button"
+              onClick={handleDeleteUser}
+              disabled={!!actionLoading}
+              className="rounded-lg border border-red-700 bg-red-600/20 px-3 py-2 text-sm font-medium text-red-600 hover:bg-red-600/30 disabled:opacity-50"
+            >
+              Delete user
+            </button>
           </div>
           {showGrantModal && (
             <div className="mt-4 p-4 rounded-lg border border-[var(--border)] bg-[var(--background)]">
@@ -272,6 +370,33 @@ export default function AdminUserDetailPage() {
               <button
                 type="button"
                 onClick={() => { setShowGrantModal(false); setGrantProExpiry(""); }}
+                className="ml-2 rounded-lg border border-[var(--border)] px-3 py-1.5 text-sm font-medium text-[var(--foreground)] hover:bg-[var(--card-hover)]"
+              >
+                Cancel
+              </button>
+            </div>
+          )}
+          {showBanModal && (
+            <div className="mt-4 p-4 rounded-lg border border-[var(--border)] bg-[var(--background)]">
+              <p className="text-sm text-[var(--foreground)] mb-2">Ban user (optional reason):</p>
+              <input
+                type="text"
+                value={banReason}
+                onChange={(e) => setBanReason(e.target.value)}
+                placeholder="Reason for ban"
+                className="rounded border border-[var(--border)] bg-[var(--card)] px-2 py-1 text-sm text-[var(--foreground)] w-full mb-2"
+              />
+              <button
+                type="button"
+                onClick={handleBan}
+                disabled={actionLoading === "ban"}
+                className="rounded-lg bg-red-600 text-white px-3 py-1.5 text-sm font-medium hover:bg-red-700 disabled:opacity-50"
+              >
+                Ban user
+              </button>
+              <button
+                type="button"
+                onClick={() => { setShowBanModal(false); setBanReason(""); }}
                 className="ml-2 rounded-lg border border-[var(--border)] px-3 py-1.5 text-sm font-medium text-[var(--foreground)] hover:bg-[var(--card-hover)]"
               >
                 Cancel
