@@ -73,7 +73,7 @@ export default function AdminUserDetailPage() {
   useEffect(() => {
     if (!id) return;
     setThoughtsLoading(true);
-    adminFetch<{ thoughts: ThoughtRow[] }>(`/admin/thoughts?userId=${id}&limit=10&includeContent=true`)
+    adminFetch<{ thoughts: ThoughtRow[] }>(`/admin/thoughts?userId=${id}&limit=10&includeContent=true&includeArchived=1`)
       .then((res) => {
         if (res.ok && res.data?.thoughts) setRecentThoughts(res.data.thoughts);
       })
@@ -281,7 +281,7 @@ export default function AdminUserDetailPage() {
         </section>
 
         <section className="rounded-xl border border-[var(--border)] bg-[var(--card)] p-4">
-          <h2 className="text-lg font-medium text-[var(--foreground)] mb-3">Recent thoughts</h2>
+          <h2 className="text-lg font-medium text-[var(--foreground)] mb-3">Recent thoughts (including archived)</h2>
           {thoughtsLoading ? (
             <p className="text-sm text-[var(--muted-foreground)]">Loading…</p>
           ) : recentThoughts.length === 0 ? (
@@ -303,7 +303,9 @@ export default function AdminUserDetailPage() {
                           ? "text-amber-500"
                           : t.status === "PROCESSING"
                             ? "text-blue-500"
-                            : "text-[var(--muted-foreground)]"
+                            : t.status === "ARCHIVED"
+                              ? "text-purple-500"
+                              : "text-[var(--muted-foreground)]"
                       }
                     >
                       {t.status}
