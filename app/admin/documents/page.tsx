@@ -94,6 +94,9 @@ export default function AdminDocumentsPage() {
   return (
     <div className="p-8">
       <h1 className="text-2xl font-semibold text-[var(--foreground)] mb-4">Documents</h1>
+      <p className="text-sm text-[var(--muted-foreground)] mb-4">
+        This list shows only the <strong>standalone Document table</strong> (OCR pipeline: upload → process → store). Documents and files attached <strong>inside thoughts</strong> are stored only in the Thought record (<code>Thought.documents</code> / <code>Thought.imageUrls</code>) and do not appear here.
+      </p>
       <div className="mb-4 flex flex-wrap gap-4 items-center">
         <select
           value={statusFilter}
@@ -120,7 +123,7 @@ export default function AdminDocumentsPage() {
       </div>
       {totalCount === 0 && !loading && (
         <p className="text-[var(--muted-foreground)] mb-4">
-          No documents in this list. This page shows OCR-processed uploads from the document pipeline (uploaded PDFs/images). In-app attachments on thoughts are not listed here.
+          No rows in the Document table. Documents attached to thoughts are stored only in the thought record, not in this table.
         </p>
       )}
       <div className="rounded-xl border border-[var(--border)] bg-[var(--card)] overflow-hidden">
