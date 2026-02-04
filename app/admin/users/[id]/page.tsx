@@ -31,6 +31,16 @@ type UserDetail = {
   };
 };
 
+type ThoughtRow = {
+  id: string;
+  userId: string;
+  status: string;
+  category: string | null;
+  createdAt: string;
+  content?: string | null;
+  user: { email: string; name: string };
+};
+
 export default function AdminUserDetailPage() {
   const params = useParams();
   const id = params?.id as string;
@@ -40,6 +50,9 @@ export default function AdminUserDetailPage() {
   const [actionLoading, setActionLoading] = useState("");
   const [grantProExpiry, setGrantProExpiry] = useState("");
   const [showGrantModal, setShowGrantModal] = useState(false);
+  const [recentThoughts, setRecentThoughts] = useState<ThoughtRow[]>([]);
+  const [thoughtsLoading, setThoughtsLoading] = useState(false);
+  const [processThoughtId, setProcessThoughtId] = useState<string | null>(null);
 
   function refetch() {
     if (!id) return;
@@ -55,6 +68,16 @@ export default function AdminUserDetailPage() {
         else setError(res.error || "User not found");
       })
       .finally(() => setLoading(false));
+  }, [id]);
+
+  useEffect(() => {
+    if (!id) return;
+    setThoughtsLoading(true);
+    adminFetch<{ thoughts: ThoughtRow[] }>(`/admin/thoughts?userId=${id}&limit=10&includeContent=true`)
+      .then((res) => {
+        if (res.ok && res.data?.thoughts) setRecentThoughts(res.data.thoughts);
+      })
+      .finally(() => setThoughtsLoading(false));
   }, [id]);
 
   async function handleGrantPro() {
@@ -93,6 +116,20 @@ export default function AdminUserDetailPage() {
       await adminFetch(`/admin/users/${id}/resend-verification`, { method: "POST" });
     } finally {
       setActionLoading("");
+    }
+  }
+
+  async function handleManualProcessThought(thoughtId: string) {
+    setProcessThoughtId(thoughtId);
+    try {
+      const res = await adminFetch(`/admin/thoughts/${thoughtId}/process`, { method: "POST" });
+      if (res.ok) {
+        setRecentThoughts((prev) =>
+          prev.map((t) => (t.id === thoughtId ? { ...t, status: "PROCESSING" } : t))
+        );
+      }
+    } finally {
+      setProcessThoughtId(null);
     }
   }
 
@@ -240,6 +277,59 @@ export default function AdminUserDetailPage() {
                 Cancel
               </button>
             </div>
+          )}
+        </section>
+
+        <section className="rounded-xl border border-[var(--border)] bg-[var(--card)] p-4">
+          <h2 className="text-lg font-medium text-[var(--foreground)] mb-3">Recent thoughts</h2>
+          {thoughtsLoading ? (
+            <p className="text-sm text-[var(--muted-foreground)]">Loading…</p>
+          ) : recentThoughts.length === 0 ? (
+            <p className="text-sm text-[var(--muted-foreground)]">No thoughts yet.</p>
+          ) : (
+            <ul className="space-y-2">
+              {recentThoughts.map((t) => (
+                <li
+                  key={t.id}
+                  className="rounded-lg border border-[var(--border)] bg-[var(--background)]/50 p-3 text-sm"
+                >
+                  <div className="flex flex-wrap items-center gap-2 mb-1">
+                    <span className="text-[var(--muted-foreground)]">
+                      {new Date(t.createdAt).toLocaleString()}
+                    </span>
+                    <span
+                      className={
+                        t.status === "RAW"
+                          ? "text-amber-500"
+                          : t.status === "PROCESSING"
+                            ? "text-blue-500"
+                            : "text-[var(--muted-foreground)]"
+                      }
+                    >
+                      {t.status}
+                    </span>
+                    {t.category && (
+                      <span className="text-[var(--muted-foreground)]">{t.category}</span>
+                    )}
+                  </div>
+                  {t.content != null && t.content !== "" && (
+                    <p className="text-[var(--foreground)] line-clamp-2 mb-2">
+                      {t.content.length > 200 ? t.content.slice(0, 200) + "…" : t.content}
+                    </p>
+                  )}
+                  {(t.status === "RAW" || t.status === "FAILED") && (
+                    <button
+                      type="button"
+                      onClick={() => handleManualProcessThought(t.id)}
+                      disabled={processThoughtId === t.id}
+                      className="rounded border border-[var(--border)] bg-[var(--card)] px-2 py-1 text-xs font-medium text-[var(--foreground)] hover:bg-[var(--card-hover)] disabled:opacity-50"
+                    >
+                      {processThoughtId === t.id ? "Processing…" : "Manual process"}
+                    </button>
+                  )}
+                </li>
+              ))}
+            </ul>
           )}
         </section>
 

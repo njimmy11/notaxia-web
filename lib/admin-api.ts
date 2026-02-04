@@ -39,6 +39,11 @@ export async function adminFetch<T>(
     (headers as Record<string, string>)["Authorization"] = `Bearer ${token}`;
   }
   const res = await fetch(url, { ...options, headers });
+  if (res.status === 401 && typeof window !== "undefined") {
+    clearAdminToken();
+    window.location.href = "/admin/login";
+    return { data: undefined, ok: false, status: 401, error: "Session expired" };
+  }
   let data: T | undefined;
   let errorMessage: string | undefined;
   try {

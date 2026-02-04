@@ -39,8 +39,19 @@ export default function AdminDocumentsPage() {
   useEffect(() => {
     adminFetch<DocumentsRes>(`/admin/documents?page=${page}&limit=${pageSize}`)
       .then((res) => {
-        if (res.ok && res.data) setData(res.data);
-        else setError(res.error || "Failed to load documents");
+        if (res.ok) {
+          const raw = res.data as DocumentsRes | undefined;
+          setData(
+            raw && Array.isArray(raw.documents)
+              ? {
+                  documents: raw.documents,
+                  totalCount: typeof raw.totalCount === "number" ? raw.totalCount : 0,
+                  page: typeof raw.page === "number" ? raw.page : 1,
+                  limit: typeof raw.limit === "number" ? raw.limit : pageSize,
+                }
+              : { documents: [], totalCount: 0, page: 1, limit: pageSize }
+          );
+        } else setError(res.error || "Failed to load documents");
       })
       .finally(() => setLoading(false));
   }, [page, pageSize]);
@@ -107,6 +118,11 @@ export default function AdminDocumentsPage() {
           </select>
         </div>
       </div>
+      {totalCount === 0 && !loading && (
+        <p className="text-[var(--muted-foreground)] mb-4">
+          No documents in this list. This page shows OCR-processed uploads from the document pipeline (uploaded PDFs/images). In-app attachments on thoughts are not listed here.
+        </p>
+      )}
       <div className="rounded-xl border border-[var(--border)] bg-[var(--card)] overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
