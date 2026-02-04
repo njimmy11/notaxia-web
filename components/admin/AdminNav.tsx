@@ -4,14 +4,17 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { clearAdminToken } from "@/lib/admin-api";
 
+// Thought-centric architecture: documents and voice are mostly stored inside thought
+// records (Thought.documents, Thought.imageUrls, Thought.audios). "Thought attachments"
+// and user detail "Recent thoughts" cover those. The standalone Document and VoiceNote
+// tables are optional pipelines (OCR upload, standalone voice upload); their admin
+// pages are still at /admin/documents and /admin/voice-notes but not in nav.
 const navItems = [
   { href: "/admin", label: "Dashboard" },
   { href: "/admin/users", label: "Users" },
-  { href: "/admin/documents", label: "Documents" },
   { href: "/admin/thought-attachments", label: "Thought attachments" },
   { href: "/admin/subscriptions", label: "Subscriptions" },
   { href: "/admin/thoughts", label: "Thoughts" },
-  { href: "/admin/voice-notes", label: "Voice notes" },
   { href: "/admin/notifications", label: "Notifications" },
   { href: "/admin/admins", label: "Admins" },
   { href: "/admin/system", label: "System" },

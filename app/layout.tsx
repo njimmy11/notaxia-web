@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { PLAY_STORE_URL } from "@/lib/app-links";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -121,6 +122,7 @@ const jsonLd = {
       name: "Notaxia",
       applicationCategory: "ProductivityApplication",
       operatingSystem: "iOS, Android",
+      downloadUrl: PLAY_STORE_URL,
       offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
       description:
         "Capture thoughts via widget, voice, or photo. AI cleans, summarizes, and connects. Optional end-to-end encryption.",

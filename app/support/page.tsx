@@ -1,4 +1,5 @@
 import { PageLayout } from "@/components/PageLayout";
+import { PLAY_STORE_URL } from "@/lib/app-links";
 
 export const metadata = {
   title: "Support",
@@ -83,6 +84,25 @@ export default function SupportPage() {
               </div>
             ))}
           </div>
+        </section>
+
+        {/* Download */}
+        <section>
+          <h2 className="text-2xl font-bold mb-4">Download the app</h2>
+          <p className="text-lg text-[var(--muted)] mb-4">
+            Notaxia is on Android and iOS. Get it on Google Play:
+          </p>
+          <a
+            href={PLAY_STORE_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex h-12 items-center justify-center gap-2 rounded-full border-2 border-[var(--border)] bg-[var(--card)] px-6 font-semibold text-[var(--foreground)] hover:border-[var(--primary)] hover:bg-[var(--card-hover)] transition-colors"
+          >
+            <svg viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6">
+              <path d="m3 20.5 9-9-9-9v18zm13.7-8.3-3.2-1.8 3.2-1.8 2.8 1.6c.5.3.5.8 0 1.1l-2.8 1.9zm-4.5-2.5L5 4.1l9.2 5.3-2 1.3zm0 1.6 2 1.3L5 19.9l7.2-8.6z"/>
+            </svg>
+            Get Notaxia on Google Play
+          </a>
         </section>
 
         {/* FAQ teaser */}

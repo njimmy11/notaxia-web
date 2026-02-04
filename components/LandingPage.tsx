@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState, useCallback } from "react";
 import { motion, useInView, useScroll, AnimatePresence } from "framer-motion";
 import Link from "next/link";
+import { PLAY_STORE_URL } from "@/lib/app-links";
 
 // ============================================
 // ICONS
@@ -468,7 +469,7 @@ export function LandingPage() {
               </span>
             </motion.a>
             <motion.a
-              href="https://play.google.com/store/apps/details?id=com.notaxia.app"
+              href={PLAY_STORE_URL}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex h-14 items-center justify-center gap-3 rounded-full border-2 border-[var(--border-strong)] bg-[var(--background)]/80 backdrop-blur px-8 font-semibold transition-all hover:border-[var(--primary)] hover:bg-[var(--accent-soft)] hover:scale-[1.02] active:scale-[0.98]"
@@ -919,7 +920,7 @@ export function LandingPage() {
               </span>
             </a>
             <a
-              href="https://play.google.com/store/apps/details?id=com.notaxia.app"
+              href={PLAY_STORE_URL}
               className="inline-flex h-14 items-center gap-3 rounded-full border-2 border-[var(--border-strong)] bg-[var(--background)]/80 backdrop-blur px-8 font-semibold transition-all hover:border-[var(--primary)] hover:scale-[1.02]"
             >
               {Icons.playStore}
