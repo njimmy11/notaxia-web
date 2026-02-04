@@ -17,18 +17,18 @@ const siteUrl = "https://notaxia.com";
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: "Notaxia — From chaos to clarity. Capture your thoughts in one tap.",
+    default: "Notaxia — Thoughts organizer. Capture your thoughts in one tap.",
     template: "%s | Notaxia",
   },
   description:
-    "Capture thoughts in one tap from your home screen. AI cleans, summarizes, and connects. Widget, voice, photo. Free. Optional end-to-end encryption.",
+    "Notaxia is a thoughts organizer app. Capture thoughts in one tap from your home screen. AI cleans, summarizes, and connects. Widget, voice, photo. Free. Optional end-to-end encryption.",
   keywords: [
-    "note taking",
+    "thoughts organizer",
     "second brain",
     "thought capture",
-    "AI notes",
-    "voice notes",
-    "widget notes",
+    "organize thoughts",
+    "voice capture",
+    "widget capture",
     "personal knowledge",
     "PKM",
     "memory app",
@@ -44,7 +44,7 @@ export const metadata: Metadata = {
     locale: "en_US",
     url: siteUrl,
     siteName: "Notaxia",
-    title: "Notaxia — From chaos to clarity. Capture your thoughts in one tap.",
+    title: "Notaxia — Thoughts organizer. Capture your thoughts in one tap.",
     description:
       "Widget. Voice. Photo. AI understands the rest. Free. No pressure. Upgrade anytime.",
     images: [
@@ -52,13 +52,13 @@ export const metadata: Metadata = {
         url: "/og.png",
         width: 1200,
         height: 630,
-        alt: "Notaxia — From chaos to clarity",
+        alt: "Notaxia — Thoughts organizer",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Notaxia — From chaos to clarity",
+    title: "Notaxia — Thoughts organizer",
     description: "Capture your thoughts in one tap. Notaxia understands the rest.",
     images: ["/og.png"],
   },
@@ -103,7 +103,7 @@ const jsonLd = {
       url: siteUrl,
       logo: { "@type": "ImageObject", url: `${siteUrl}/logo.png` },
       description:
-        "Notaxia helps you capture thoughts in one tap and turn them into clarity with AI.",
+        "Notaxia is a thoughts organizer app. Capture thoughts in one tap and turn them into clarity with AI.",
     },
     {
       "@type": "WebSite",
@@ -113,7 +113,7 @@ const jsonLd = {
       publisher: { "@id": `${siteUrl}/#organization` },
       inLanguage: "en-US",
       description:
-        "From chaos to clarity. Capture your thoughts in one tap. Notaxia understands the rest.",
+        "Thoughts organizer. Capture your thoughts in one tap. Notaxia understands the rest.",
     },
     {
       "@type": "SoftwareApplication",
@@ -126,7 +126,7 @@ const jsonLd = {
         "Capture thoughts via widget, voice, or photo. AI cleans, summarizes, and connects. Optional end-to-end encryption.",
       featureList: [
         "One-tap capture from home screen widget",
-        "Voice notes with transcription and AI",
+        "Voice capture with transcription and AI",
         "Photo and document capture",
         "AI summary and insights",
         "Semantic recall and memory",

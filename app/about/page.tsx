@@ -4,11 +4,11 @@ import { PageLayout } from "@/components/PageLayout";
 export const metadata = {
   title: "About",
   description:
-    "Notaxia is built for people who think fast and don't want their notes to slow them down. Capture first, make sense later.",
+    "Notaxia is a thoughts organizer built for people who think fast. Capture first, make sense later.",
   openGraph: {
     title: "About | Notaxia",
     description:
-      "Notaxia is built for people who think fast and don't want their notes to slow them down.",
+      "Notaxia is a thoughts organizer built for people who think fast.",
     url: "https://notaxia.com/about",
   },
 };
@@ -28,7 +28,7 @@ export default function AboutPage() {
             </p>
             <p className="text-lg leading-relaxed text-[var(--muted)] mt-6">
               You have an idea in the shower, a name at a red light, half a thought right before sleep. 
-              By the time you open a note and find the right folder, it's gone.
+              By the time you open an app and find the right place, it's gone.
             </p>
             <p className="text-lg leading-relaxed text-[var(--muted)] mt-6">
               So we flipped it. <span className="text-[var(--foreground)] font-medium">Capture first—one tap from the home screen, 

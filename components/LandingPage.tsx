@@ -157,7 +157,7 @@ function GradientOrbs() {
 // ============================================
 function FloatingBadges() {
   const badges = [
-    { label: "Voice Notes", icon: Icons.mic, position: "top-[15%] left-[5%] md:left-[10%]", delay: 0 },
+    { label: "Voice capture", icon: Icons.mic, position: "top-[15%] left-[5%] md:left-[10%]", delay: 0 },
     { label: "AI Powered", icon: Icons.brain, position: "top-[20%] right-[5%] md:right-[8%]", delay: 0.2 },
     { label: "Private - E2E Encrypted", icon: Icons.lock, position: "bottom-[25%] left-[8%] md:left-[15%]", delay: 0.4 },
     { label: "Photos", icon: Icons.camera, position: "bottom-[30%] right-[10%] md:right-[12%]", delay: 0.6 },
@@ -196,7 +196,7 @@ function PhoneMockup() {
   const phrases = [
     "call mom about birthday dinner",
     "idea: app that tracks habits",
-    "meeting notes from standup",
+    "standup takeaways",
     "remember to buy groceries",
     "book recommendation from Sarah",
   ];
@@ -441,9 +441,9 @@ export function LandingPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.25 }}
           >
-            Capture your thoughts in one tap.
+            <span className="text-[var(--foreground)] font-medium">The thoughts organizer app.</span>
             <br />
-            <span className="text-[var(--foreground)] font-medium">Notaxia understands the rest.</span>
+            Capture your thoughts in one tap. Notaxia understands the rest.
           </motion.p>
 
           {/* CTA Buttons */}
@@ -627,7 +627,7 @@ export function LandingPage() {
             viewport={{ once: true }}
           >
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4">
-              Not another notes app.
+              The thoughts organizer app.
             </h2>
             <p className="text-lg text-[var(--muted)]">Built different, on purpose.</p>
           </motion.div>
@@ -642,7 +642,7 @@ export function LandingPage() {
             >
               <h3 className="text-lg font-semibold text-[var(--muted)] mb-6">Other apps</h3>
               <ul className="space-y-4">
-                {["Organize first, capture later", "Static notes gathering dust", "Keyword search only", "Complex folder structures"].map((item, i) => (
+                {["Organize first, capture later", "Static thoughts gathering dust", "Keyword search only", "Complex folder structures"].map((item, i) => (
                   <motion.li 
                     key={i} 
                     className="flex items-center gap-3 text-[var(--muted)]"
@@ -819,7 +819,7 @@ export function LandingPage() {
           >
             <h2 className="text-3xl sm:text-4xl font-bold mb-4">Start free, upgrade when ready</h2>
             <p className="text-lg text-[var(--muted)] mb-8 max-w-2xl mx-auto">
-              Free tier includes limited AI thoughts, voice notes, and documents. Pro unlocks unlimited processing, transcription, and OCR. See the app for limits and pricing.
+              Free tier includes limited AI thoughts, voice capture, and documents. Pro unlocks unlimited processing, transcription, and OCR. See the app for limits and pricing.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
               <a
@@ -854,12 +854,12 @@ export function LandingPage() {
 
           <dl className="space-y-4">
             {[
-              { q: "Is Notaxia free?", a: "Notaxia has a free tier with limits on AI-processed thoughts, voice notes, and documents per month. Notes, tags, search, and reminders stay unlimited on free. Pro removes those limits and unlocks unlimited AI, voice transcription, and document OCR. See the app for current limits and pricing." },
+              { q: "Is Notaxia free?", a: "Notaxia has a free tier with limits on AI-processed thoughts, voice capture, and documents per month. Thoughts, tags, search, and reminders stay unlimited on free. Pro removes those limits and unlocks unlimited AI, voice transcription, and document OCR. See the app for current limits and pricing." },
               { q: "How much does Pro cost?", a: "Pro is available as a monthly or yearly subscription. Check the app or our Changelog for current pricing. We often run launch discounts for early users." },
               { q: "How does Private Mode work?", a: "Your thoughts are encrypted on your device before they leave. We cannot read them. Only you have the keys. Private Mode is optional—you choose." },
-              { q: "What can I capture?", a: "Text from the widget, voice notes (transcribed and summarized), photos, and documents. AI cleans and connects everything so you can recall by meaning, not just keywords." },
+              { q: "What can I capture?", a: "Text from the widget, voice (transcribed and summarized), photos, and documents. AI cleans and connects everything so you can recall by meaning, not just keywords." },
               { q: "Where is Notaxia available?", a: "Notaxia is on iOS and Android. Download from the App Store or Google Play. There’s no web app yet—we’re focused on mobile-first capture." },
-              { q: "Can I export my data?", a: "Yes. You can export your thoughts and notes (e.g. CSV). Pro users get additional export options. Your data is yours." },
+              { q: "Can I export my data?", a: "Yes. You can export your thoughts (e.g. CSV). Pro users get additional export options. Your data is yours." },
             ].map((faq, i) => (
               <motion.div
                 key={i}
@@ -935,7 +935,7 @@ export function LandingPage() {
           <div className="flex flex-col md:flex-row justify-between items-center gap-8">
             <div className="text-center md:text-left">
               <Link href="/" className="text-xl font-bold gradient-text">Notaxia</Link>
-              <p className="text-sm text-[var(--muted)] mt-2">From chaos to clarity.</p>
+              <p className="text-sm text-[var(--muted)] mt-2">Thoughts organizer — from chaos to clarity.</p>
             </div>
             
             <div className="flex items-center gap-8">
