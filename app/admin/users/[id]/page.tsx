@@ -313,9 +313,9 @@ export default function AdminUserDetailPage() {
                     )}
                   </div>
                   {t.content != null && t.content !== "" && (
-                    <p className="text-[var(--foreground)] line-clamp-2 mb-2">
-                      {t.content.length > 200 ? t.content.slice(0, 200) + "…" : t.content}
-                    </p>
+                    <div className="text-[var(--foreground)] mb-2 whitespace-pre-wrap break-words rounded border border-[var(--border)] bg-[var(--card)] p-2 text-sm">
+                      {t.content}
+                    </div>
                   )}
                   {(t.status === "RAW" || t.status === "FAILED") && (
                     <button
