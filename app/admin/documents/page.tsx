@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import { adminFetch } from "@/lib/admin-api";
 
 type DocRow = {
@@ -95,7 +96,11 @@ export default function AdminDocumentsPage() {
     <div className="p-8">
       <h1 className="text-2xl font-semibold text-[var(--foreground)] mb-4">Documents</h1>
       <p className="text-sm text-[var(--muted-foreground)] mb-4">
-        This list shows only the <strong>standalone Document table</strong> (OCR pipeline: upload → process → store). Documents and files attached <strong>inside thoughts</strong> are stored only in the Thought record (<code>Thought.documents</code> / <code>Thought.imageUrls</code>) and do not appear here.
+        This list shows only the <strong>standalone Document table</strong> (OCR pipeline: upload → process → store). Documents and files attached <strong>inside thoughts</strong> are stored only in the Thought record (<code>Thought.documents</code> / <code>Thought.imageUrls</code> / <code>Thought.audios</code>) and do not appear here. See{" "}
+        <Link href="/admin/thought-attachments" className="text-[var(--primary)] hover:underline">
+          Thought attachments
+        </Link>{" "}
+        to list those.
       </p>
       <div className="mb-4 flex flex-wrap gap-4 items-center">
         <select
