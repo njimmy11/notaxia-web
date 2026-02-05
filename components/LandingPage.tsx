@@ -521,7 +521,7 @@ export function LandingPage() {
             <div className="flex-shrink-0 w-full max-w-[320px] mx-auto lg:mx-0">
               <div className="rounded-3xl overflow-hidden border border-[var(--border)] bg-[var(--card)] shadow-2xl shadow-black/10 hover:shadow-[var(--primary)]/10 hover:border-[var(--primary)]/30 transition-all duration-300">
                 <img
-                  src="/android_widget.jpeg"
+                  src="/thoughts_input.jpeg"
                   alt="Notaxia widget on home screen — capture a thought without opening the app"
                   className="w-full h-auto object-cover object-top aspect-[9/19]"
                 />
@@ -773,9 +773,9 @@ export function LandingPage() {
             {/* Horizontal scroll container */}
             <div className="flex gap-6 overflow-x-auto pb-6 snap-x snap-mandatory scroll-smooth scrollbar-thin md:gap-8 -mx-6 px-6 md:-mx-8 md:px-8">
               {[
-                { src: "/android_widget.jpeg", caption: "One tap. No app. No friction.", label: "Widget → Thought" },
+                { src: "/thoughts_input.jpeg", caption: "One tap. No app. No friction.", label: "Widget → Thought" },
+                { src: "/record_thoughts.jpeg", caption: "Or record a thought from your home screen.", label: "Voice capture" },
                 { src: "/search.png", caption: "Ask your past.", label: "Recall → Memory" },
-                { src: "/widget_ios.png", caption: "Capture first. Make sense later.", label: "Quick Capture" },
                 { src: "/though_inbox.png", caption: "See your mind.", label: "Insights → Clarity" },
               ].map((slide, i) => (
                 <motion.div
