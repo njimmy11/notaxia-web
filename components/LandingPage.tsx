@@ -495,9 +495,14 @@ export function LandingPage() {
 
       {/* ============ WIDGETS — CAPTURE THOUGHTS INSTANTLY ============ */}
       <section className="relative px-6 py-24 md:py-32 overflow-hidden">
-        <div className="max-w-5xl mx-auto">
+        {/* Soft ambient glow behind phones */}
+        <div className="absolute inset-0 pointer-events-none" aria-hidden>
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[min(100%,600px)] h-[400px] rounded-full bg-[var(--primary)]/10 blur-[80px]" />
+        </div>
+
+        <div className="relative max-w-6xl mx-auto">
           <motion.div
-            className="text-center mb-12 md:mb-16"
+            className="text-center mb-14 md:mb-20"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-80px" }}
@@ -511,25 +516,69 @@ export function LandingPage() {
           </motion.div>
 
           <motion.div
-            className="flex flex-col lg:flex-row items-center gap-12 lg:gap-16"
+            className="flex flex-col lg:flex-row items-center gap-14 lg:gap-20"
             initial={{ opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-80px" }}
             transition={{ duration: 0.5 }}
           >
-            {/* One strong visual: home screen + widget + thought being typed */}
-            <div className="flex-shrink-0 w-full max-w-[320px] mx-auto lg:mx-0">
-              <div className="rounded-3xl overflow-hidden border border-[var(--border)] bg-[var(--card)] shadow-2xl shadow-black/10 hover:shadow-[var(--primary)]/10 hover:border-[var(--primary)]/30 transition-all duration-300">
-                <img
-                  src="/thoughts_input.jpeg"
-                  alt="Notaxia widget on home screen — capture a thought without opening the app"
-                  className="w-full h-auto object-cover object-top aspect-[9/19]"
-                />
-              </div>
+            {/* Dual phone showcase: overlapping tilted on desktop, stacked on mobile */}
+            <div className="relative flex-shrink-0 w-full max-w-[360px] lg:max-w-[420px] mx-auto lg:mx-0 min-h-[380px] sm:min-h-[420px] lg:min-h-[480px] flex flex-col sm:flex-col lg:flex-row items-center justify-center gap-8 lg:gap-0">
+              {/* Left phone — type a thought */}
+              <motion.div
+                className="relative z-10 w-[200px] sm:w-[220px] lg:w-[240px] xl:w-[260px] origin-bottom shrink-0"
+                initial={{ opacity: 0, y: 24, rotate: -8 }}
+                whileInView={{ opacity: 1, y: 0, rotate: -6 }}
+                viewport={{ once: true, margin: "-50px" }}
+                transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+                whileHover={{ rotate: -4, scale: 1.03 }}
+              >
+                <div className="relative">
+                  <div className="absolute -inset-[2px] rounded-[28px] bg-gradient-to-br from-[var(--primary)] via-[var(--accent)] to-teal-400 opacity-40 lg:opacity-50 blur-md" />
+                  <div className="relative rounded-[26px] p-[10px] bg-[var(--card)] shadow-2xl shadow-black/20 border border-white/10 dark:border-white/5">
+                    <div className="rounded-[18px] overflow-hidden bg-[var(--background)] ring-1 ring-black/5">
+                      <img
+                        src="/thoughts_input.jpeg"
+                        alt="Type a thought from your home screen"
+                        className="w-full h-auto object-cover object-top aspect-[9/19]"
+                      />
+                    </div>
+                  </div>
+                </div>
+                <p className="mt-3 text-center text-xs font-semibold text-[var(--muted)] tracking-wide uppercase">
+                  Type a thought
+                </p>
+              </motion.div>
+
+              {/* Right phone — record a thought */}
+              <motion.div
+                className="relative z-0 w-[200px] sm:w-[220px] lg:w-[240px] xl:w-[260px] origin-bottom shrink-0 lg:-ml-8 xl:-ml-10"
+                initial={{ opacity: 0, y: 24, rotate: 8 }}
+                whileInView={{ opacity: 1, y: 0, rotate: 6 }}
+                viewport={{ once: true, margin: "-50px" }}
+                transition={{ duration: 0.6, delay: 0.12, ease: [0.22, 1, 0.36, 1] }}
+                whileHover={{ rotate: 4, scale: 1.03 }}
+              >
+                <div className="relative">
+                  <div className="absolute -inset-[2px] rounded-[28px] bg-gradient-to-br from-teal-400 via-[var(--accent)] to-[var(--primary)] opacity-40 lg:opacity-50 blur-md" />
+                  <div className="relative rounded-[26px] p-[10px] bg-[var(--card)] shadow-2xl shadow-black/20 border border-white/10 dark:border-white/5">
+                    <div className="rounded-[18px] overflow-hidden bg-[var(--background)] ring-1 ring-black/5">
+                      <img
+                        src="/record_thoughts.jpeg"
+                        alt="Or record a thought from your home screen"
+                        className="w-full h-auto object-cover object-top aspect-[9/19]"
+                      />
+                    </div>
+                  </div>
+                </div>
+                <p className="mt-3 text-center text-xs font-semibold text-[var(--muted)] tracking-wide uppercase">
+                  Or record one
+                </p>
+              </motion.div>
             </div>
 
-            <div className="text-center lg:text-left">
-              <p className="text-[var(--foreground)] text-base sm:text-lg leading-relaxed mb-8 max-w-xl mx-auto lg:mx-0">
+            <div className="text-center lg:text-left lg:max-w-xl">
+              <p className="text-[var(--foreground)] text-base sm:text-lg leading-relaxed mb-8">
                 Notaxia lets you capture thoughts directly from your home screen. When an idea appears, you don&apos;t need to unlock, search, or open the app. Just tap the widget and write. Your thought is saved instantly and organized automatically.
               </p>
               <blockquote className="border-l-4 border-[var(--primary)] pl-5 py-1 text-lg sm:text-xl font-medium text-[var(--foreground)] italic">
