@@ -493,6 +493,58 @@ export function LandingPage() {
         <ScrollIndicator />
       </section>
 
+      {/* ============ WIDGETS — CAPTURE THOUGHTS INSTANTLY ============ */}
+      <section className="relative px-6 py-24 md:py-32 overflow-hidden">
+        <div className="max-w-5xl mx-auto">
+          <motion.div
+            className="text-center mb-12 md:mb-16"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-80px" }}
+          >
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4">
+              Capture thoughts instantly
+            </h2>
+            <p className="text-lg sm:text-xl text-[var(--muted)] max-w-2xl mx-auto">
+              Write from your home screen. No app open. No friction.
+            </p>
+          </motion.div>
+
+          <motion.div
+            className="flex flex-col lg:flex-row items-center gap-12 lg:gap-16"
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-80px" }}
+            transition={{ duration: 0.5 }}
+          >
+            {/* One strong visual: home screen + widget + thought being typed */}
+            <div className="flex-shrink-0 w-full max-w-[320px] mx-auto lg:mx-0">
+              <div className="rounded-3xl overflow-hidden border border-[var(--border)] bg-[var(--card)] shadow-2xl shadow-black/10 hover:shadow-[var(--primary)]/10 hover:border-[var(--primary)]/30 transition-all duration-300">
+                <img
+                  src="/android_widget.jpeg"
+                  alt="Notaxia widget on home screen — capture a thought without opening the app"
+                  className="w-full h-auto object-cover object-top aspect-[9/19]"
+                />
+              </div>
+            </div>
+
+            <div className="text-center lg:text-left">
+              <p className="text-[var(--foreground)] text-base sm:text-lg leading-relaxed mb-8 max-w-xl mx-auto lg:mx-0">
+                Notaxia lets you capture thoughts directly from your home screen. When an idea appears, you don&apos;t need to unlock, search, or open the app. Just tap the widget and write. Your thought is saved instantly and organized automatically.
+              </p>
+              <blockquote className="border-l-4 border-[var(--primary)] pl-5 py-1 text-lg sm:text-xl font-medium text-[var(--foreground)] italic">
+                Most note apps require opening the app.
+                <br />
+                Notaxia starts where your thoughts start.
+              </blockquote>
+              <p className="mt-6 text-[var(--muted)] text-sm sm:text-base">
+                Capture thoughts from your home screen, before they disappear.
+              </p>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
       {/* ============ LOGOS / TRUST ============ */}
       <section className="py-12 border-y border-[var(--border)] bg-[var(--card)]/50">
         <div className="max-w-4xl mx-auto px-6 text-center">
