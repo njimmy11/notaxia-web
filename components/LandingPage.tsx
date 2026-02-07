@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState, useCallback } from "react";
 import { motion, useInView, useScroll, AnimatePresence } from "framer-motion";
 import Link from "next/link";
+import { track } from "@/lib/analytics";
 import { PLAY_STORE_URL } from "@/lib/app-links";
 
 // ============================================
@@ -388,12 +389,13 @@ export function LandingPage() {
             <img src="/logo.png" alt="Notaxia" className="h-8 md:h-9 w-auto" />
           </Link>
           <div className="hidden md:flex items-center gap-8">
-            <Link href="/blog" className="text-sm text-[var(--muted)] hover:text-[var(--foreground)] transition-colors">Blog</Link>
-            <Link href="/about" className="text-sm text-[var(--muted)] hover:text-[var(--foreground)] transition-colors">About</Link>
-            <Link href="/changelog" className="text-sm text-[var(--muted)] hover:text-[var(--foreground)] transition-colors">Changelog</Link>
+            <Link href="/blog" className="text-sm text-[var(--muted)] hover:text-[var(--foreground)] transition-colors" onClick={() => track("nav_click", { link: "blog" })}>Blog</Link>
+            <Link href="/about" className="text-sm text-[var(--muted)] hover:text-[var(--foreground)] transition-colors" onClick={() => track("nav_click", { link: "about" })}>About</Link>
+            <Link href="/changelog" className="text-sm text-[var(--muted)] hover:text-[var(--foreground)] transition-colors" onClick={() => track("nav_click", { link: "changelog" })}>Changelog</Link>
             <a 
               href="https://apps.apple.com/app/notaxia"
               className="text-sm font-medium px-5 py-2.5 rounded-full bg-[var(--foreground)] text-[var(--background)] hover:opacity-90 transition-opacity"
+              onClick={() => track("cta_click", { platform: "ios", location: "nav" })}
             >
               Get the app
             </a>
@@ -461,6 +463,7 @@ export function LandingPage() {
               className="group relative inline-flex h-14 items-center justify-center gap-3 rounded-full bg-[var(--foreground)] px-8 font-semibold text-[var(--background)] shadow-2xl shadow-black/20 transition-all hover:scale-[1.02] active:scale-[0.98]"
               whileHover={{ y: -2 }}
               whileTap={{ y: 0 }}
+              onClick={() => track("cta_click", { platform: "ios", location: "hero" })}
             >
               <span className="absolute inset-0 rounded-full bg-gradient-to-r from-[var(--primary)] to-[var(--accent)] opacity-0 group-hover:opacity-100 transition-opacity" />
               <span className="relative flex items-center gap-3">
@@ -475,6 +478,7 @@ export function LandingPage() {
               className="inline-flex h-14 items-center justify-center gap-3 rounded-full border-2 border-[var(--border-strong)] bg-[var(--background)]/80 backdrop-blur px-8 font-semibold transition-all hover:border-[var(--primary)] hover:bg-[var(--accent-soft)] hover:scale-[1.02] active:scale-[0.98]"
               whileHover={{ y: -2 }}
               whileTap={{ y: 0 }}
+              onClick={() => track("cta_click", { platform: "android", location: "hero" })}
             >
               {Icons.playStore}
               <span>Download for Android</span>
@@ -927,12 +931,14 @@ export function LandingPage() {
               <a
                 href="https://apps.apple.com/app/notaxia"
                 className="inline-flex h-12 items-center justify-center rounded-full bg-[var(--foreground)] px-8 font-semibold text-[var(--background)] hover:opacity-90 transition-opacity"
+                onClick={() => track("cta_click", { platform: "ios", location: "pricing" })}
               >
                 Get started free
               </a>
               <Link
                 href="/changelog"
                 className="inline-flex h-12 items-center justify-center rounded-full border border-[var(--border)] px-8 font-semibold hover:bg-[var(--accent-soft)] transition-colors"
+                onClick={() => track("cta_click", { action: "view_plans", location: "pricing" })}
               >
                 View plans
               </Link>
@@ -1013,6 +1019,7 @@ export function LandingPage() {
             <a
               href="https://apps.apple.com/app/notaxia"
               className="group relative inline-flex h-14 items-center gap-3 rounded-full bg-[var(--foreground)] px-8 font-semibold text-[var(--background)] shadow-2xl transition-all hover:scale-[1.02]"
+              onClick={() => track("cta_click", { platform: "ios", location: "final_cta" })}
             >
               <span className="absolute inset-0 rounded-full bg-gradient-to-r from-[var(--primary)] to-[var(--accent)] opacity-0 group-hover:opacity-100 transition-opacity" />
               <span className="relative flex items-center gap-3">
@@ -1023,6 +1030,7 @@ export function LandingPage() {
             <a
               href={PLAY_STORE_URL}
               className="inline-flex h-14 items-center gap-3 rounded-full border-2 border-[var(--border-strong)] bg-[var(--background)]/80 backdrop-blur px-8 font-semibold transition-all hover:border-[var(--primary)] hover:scale-[1.02]"
+              onClick={() => track("cta_click", { platform: "android", location: "final_cta" })}
             >
               {Icons.playStore}
               <span>Download for Android</span>
@@ -1041,17 +1049,17 @@ export function LandingPage() {
             </div>
             
             <div className="flex items-center gap-8">
-              <Link href="/blog" className="text-sm text-[var(--muted)] hover:text-[var(--foreground)] transition-colors">Blog</Link>
-              <Link href="/about" className="text-sm text-[var(--muted)] hover:text-[var(--foreground)] transition-colors">About</Link>
-              <Link href="/changelog" className="text-sm text-[var(--muted)] hover:text-[var(--foreground)] transition-colors">Changelog</Link>
-              <Link href="/support" className="text-sm text-[var(--muted)] hover:text-[var(--foreground)] transition-colors">Support</Link>
+              <Link href="/blog" className="text-sm text-[var(--muted)] hover:text-[var(--foreground)] transition-colors" onClick={() => track("footer_click", { link: "blog" })}>Blog</Link>
+              <Link href="/about" className="text-sm text-[var(--muted)] hover:text-[var(--foreground)] transition-colors" onClick={() => track("footer_click", { link: "about" })}>About</Link>
+              <Link href="/changelog" className="text-sm text-[var(--muted)] hover:text-[var(--foreground)] transition-colors" onClick={() => track("footer_click", { link: "changelog" })}>Changelog</Link>
+              <Link href="/support" className="text-sm text-[var(--muted)] hover:text-[var(--foreground)] transition-colors" onClick={() => track("footer_click", { link: "support" })}>Support</Link>
             </div>
 
             <div className="flex items-center gap-4">
-              <a href="https://twitter.com/notaxia" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-[var(--card)] border border-[var(--border)] flex items-center justify-center text-[var(--muted)] hover:text-[var(--foreground)] hover:border-[var(--foreground)] transition-all">
+              <a href="https://twitter.com/notaxia" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-[var(--card)] border border-[var(--border)] flex items-center justify-center text-[var(--muted)] hover:text-[var(--foreground)] hover:border-[var(--foreground)] transition-all" onClick={() => track("social_click", { platform: "twitter" })}>
                 {Icons.twitter}
               </a>
-              <a href="https://github.com/notaxia" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-[var(--card)] border border-[var(--border)] flex items-center justify-center text-[var(--muted)] hover:text-[var(--foreground)] hover:border-[var(--foreground)] transition-all">
+              <a href="https://github.com/notaxia" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-[var(--card)] border border-[var(--border)] flex items-center justify-center text-[var(--muted)] hover:text-[var(--foreground)] hover:border-[var(--foreground)] transition-all" onClick={() => track("social_click", { platform: "github" })}>
                 {Icons.github}
               </a>
             </div>
@@ -1060,8 +1068,8 @@ export function LandingPage() {
           <div className="mt-12 pt-8 border-t border-[var(--border)] flex flex-col sm:flex-row justify-between items-center gap-4 text-sm text-[var(--muted)]">
             <p>© {new Date().getFullYear()} Notaxia. All rights reserved.</p>
             <div className="flex gap-6">
-              <Link href="/privacy" className="hover:text-[var(--foreground)] transition-colors">Privacy</Link>
-              <Link href="/terms" className="hover:text-[var(--foreground)] transition-colors">Terms</Link>
+              <Link href="/privacy" className="hover:text-[var(--foreground)] transition-colors" onClick={() => track("footer_click", { link: "privacy" })}>Privacy</Link>
+              <Link href="/terms" className="hover:text-[var(--foreground)] transition-colors" onClick={() => track("footer_click", { link: "terms" })}>Terms</Link>
             </div>
           </div>
         </div>
